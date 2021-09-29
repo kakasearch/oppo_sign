@@ -34,6 +34,7 @@ function id_wait_click(str){
 }
 
 function jump_ad(){
+    sleep(1000)
     text_click("跳过广告")
 }
 
@@ -54,15 +55,17 @@ function share_wechat(){
 function browser_search(){
     //做搜索任务
     log("浏览器搜索任务")
+    id("title_text").waitFor()
+    search = id("title_text").findOne().bounds()
     for(var i=1;i<4;i++){
         log("第",i,"次搜索")
-        id("title_text").waitFor()
-        id("title_text").findOne().click()
+        click(device.width*0.7,332)
         sleep(1000);
         setText(String(i));
         text("搜索").findOne().click()
         sleep(1000)
         back();
+        sleep(2000)
     }
     log("浏览器搜索任务完成")
 }
@@ -84,7 +87,7 @@ function browser_article(){
             }
             log("第",total+1,"篇文章",click(c[k].bounds().centerX()+device.width/4, c[k].bounds().centerY()));
             //分享
-            if (count < 3) {
+            if (count < 4) {
                 id("share").waitFor()
                 id("share").findOne().click()
                 share_wechat()
@@ -186,6 +189,7 @@ function browser_sign_and_reward(){
 function browser(){
     log("打开浏览器");
     if (app.launchPackage("com.heytap.browser")) {
+        jump_ad()
         sleep(1000);
         browser_search()
         sleep(1000)
